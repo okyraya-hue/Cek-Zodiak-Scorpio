@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zodiak Premium</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI';}
+
+body{
+    background: radial-gradient(circle at top,#1e1b4b,#020617);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:90%;
+    max-width:420px;
+    padding:25px;
+    border-radius:20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    box-shadow:0 0 40px rgba(124,58,237,0.3);
+    text-align:center;
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+h1{margin-bottom:10px;}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border-radius:10px;
+    border:none;
+    background:#020617;
+    color:white;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(45deg,#7c3aed,#a78bfa);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    border-radius:12px;
+    background:#020617;
+    display:none;
+    animation:fadeIn 0.5s ease;
+}
+
+.highlight{color:#c084fc;font-weight:bold;}
+
+.cta{
+    margin-top:12px;
+    font-size:14px;
+    color:#cbd5f5;
+}
+
+.share{background:#22c55e;}
+.link-btn{
+    display:block;
+    margin-top:10px;
+    padding:12px;
+    border-radius:10px;
+    background:#f59e0b;
+    color:black;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🔮 Cek Zodiak Scorpio</h1>
+    <p>Masukkan tanggal lahirmu</p>
+
+    <input type="number" id="tgl" placeholder="Tanggal">
+    <input type="number" id="bln" placeholder="Bulan">
+
+    <button onclick="cek()">Cek Sekarang</button>
+
+    <div class="result" id="hasil"></div>
+</div>
+
+<audio id="klik" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
+
+<script>
+function randomSkor(){
+    return Math.floor(Math.random()*100)+1;
+}
+
+function cek(){
+    document.getElementById("klik").play();
+
+    let tgl = parseInt(document.getElementById("tgl").value);
+    let bln = parseInt(document.getElementById("bln").value);
+    let skor = randomSkor();
+    let hasil = document.getElementById("hasil");
+
+    let isi="";
+
+    if(bln==10 && tgl>=23 || bln==11 && tgl<=21){
+        if(bln==10){
+            isi=`
+            <h3>♏ Scorpio Oktober</h3>
+            <p><span class="highlight">Karakter:</span> Misterius, berani</p>
+            <p><span class="highlight">Hobi:</span> Tantangan & eksplor</p>
+            <p><span class="highlight">Warna:</span> Merah tua, hitam</p>
+            <p><span class="highlight">Cocok:</span> Cancer, Pisces</p>
+            `;
+        }else{
+            isi=`
+            <h3>♏ Scorpio November</h3>
+            <p><span class="highlight">Karakter:</span> Emosional, setia</p>
+            <p><span class="highlight">Hobi:</span> Musik & refleksi</p>
+            <p><span class="highlight">Warna:</span> Ungu, biru tua</p>
+            <p><span class="highlight">Cocok:</span> Virgo, Capricorn</p>
+            `;
+        }
+
+        isi+=`
+        <p class="cta">🔥 Skor Aura Kamu: <b>${skor}%</b></p>
+        `;
+    }else{
+        isi=`<p>❌ Kamu bukan Scorpio</p>`;
+    }
+
+    isi+=`
+    <p class="cta">Tag temanmu yang zodiaknya sama!</p>
+
+    <button class="share" onclick="shareWA()">📲 Share WhatsApp</button>
+
+    <a href="https://wa.me/6289513237203" class="link-btn">
+        🛒 Jasa Pembuatan Website APP
+    </a>
+    `;
+
+    hasil.innerHTML=isi;
+    hasil.style.display="block";
+
+    // simpan hasil
+    localStorage.setItem("hasilZodiak", isi);
+}
+
+// load ulang hasil
+window.onload=function(){
+    let data=localStorage.getItem("hasilZodiak");
+    if(data){
+        document.getElementById("hasil").innerHTML=data;
+        document.getElementById("hasil").style.display="block";
+    }
+}
+
+function shareWA(){
+    let text="Cek zodiak + skor aura kamu 😳 "+window.location.href;
+    window.open("https://wa.me/?text="+encodeURIComponent(text));
+}
+</script>
+
+</body>
+</html>
